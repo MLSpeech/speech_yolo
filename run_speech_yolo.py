@@ -22,7 +22,7 @@ parser.add_argument('--opt', type=str, default='adam',
 parser.add_argument('--momentum', type=float, default='0.9',
                     help='momentum')
 parser.add_argument('--c_b_k', type=str, default='6_2_1000', help='C B K parameters')
-parser.add_argument('--prev_classification_model', type=str, default='/home/mlspeech/segalya/yolo/YoloRelease/GcommandModels/optimizer_adam_lr_0.001_batch_size_32_arc_VGG19_class_num_30.pth',
+parser.add_argument('--prev_classification_model', type=str, default='/home/mlspeech/segalya/yolo/speech_yolo/GcommandModels/optimizer_adam_lr_0.001_batch_size_32_arc_VGG19_class_num_30.pth',
                     help='the location of the prev classification model')
 parser.add_argument('--lr', type=float, default=0.001,
                     help='initial learning rate')
@@ -51,7 +51,7 @@ parser.add_argument('--noobject_conf',type=float, default=0.5,
                     help='noobject conf')
 parser.add_argument('--obj_conf',type=float, default=1,
                     help='obj conf')
-parser.add_argument('--coordinate',type=float, default=100,
+parser.add_argument('--coordinate',type=float, default=10,
                     help='coordinate')
 parser.add_argument('--class_conf',type=float, default=1,
                     help='class_conf')
@@ -159,7 +159,9 @@ while (epoch < args.epochs + 1) and (iteration < args.patience):
             'epoch': epoch,
             'config_dict': config_dict,
             'arc': args.arc,
-            'dropout': args.dropout
+            'dropout': args.dropout,
+            'loss_params': {"noobject_conf": args.noobject_conf, "obj_conf": args.obj_conf,
+                            "coordinate": args.coordinate, "class_conf": args.class_conf, "loss_type": args.loss_type}
         }
         if not os.path.isdir(args.save_folder):
             os.mkdir(args.save_folder)

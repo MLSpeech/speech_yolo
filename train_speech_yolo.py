@@ -472,7 +472,7 @@ def test_mtwv(loader, model, config_dict, threshold, wav_len, is_cuda):
         keyword_indices = [loader.dataset.class_to_idx[keyword] for keyword in keyword_list]
         #keyword_indices = [x + y for x, y in zip(keyword_indices, [1]*20)] #adding 1 to all indices
         
-        print(zip(keyword_list, keyword_indices))
+        print(list(zip(keyword_list, keyword_indices)))
         
         t_cuda= torch.cuda if is_cuda else torch
 

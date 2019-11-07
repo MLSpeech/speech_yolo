@@ -10,6 +10,7 @@ import os
 import pdb
 from model_speech_yolo import load_model
 import train_speech_yolo
+import loss_speech_yolo
 
 parser = argparse.ArgumentParser(description='test  speechYolo model')
 parser.add_argument('--train_data', type=str,
@@ -19,7 +20,7 @@ parser.add_argument('--test_data', type=str,
                     default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Test_words_960',
                     help='location of the train data')
 parser.add_argument('--model', type=str,
-                    default='/home/mlspeech/segalya/yolo/YoloSpeech2Word/burst_closure_voicing_yolo/new_models/loss_30adam_0.0001_VGG11_1_30_s_10_b_2_c_8.pth',
+                    default='/home/mlspeech/segalya/yolo/speech_yolo/SpeechYoloModels/opt_adam_lr_0.001_batch_size_32_arc_VGG19_c_6_b_2_k_1000noobject_conf_0.5_obj_conf_1_coordinate_100_class_conf_1_loss_type_mse_.pth',
                     help='the location of the trained speech yolo model')
 parser.add_argument('--batch_size', type=int, default=4, metavar='N',
                     help='batch size')
@@ -38,7 +39,8 @@ torch.manual_seed(args.seed)
 if args.cuda:
     torch.cuda.manual_seed(args.seed)
 
-model, acc, epoch = load_model(args.model, args.arc)
+
+model, acc, epoch = load_model(args.model)
 config_dict = {"C": model.c, "B": model.b, "K": model.k}
 if args.cuda:
     print('Using CUDA with {0} GPUs'.format(torch.cuda.device_count()))
@@ -54,13 +56,15 @@ start_theta = float(range_split[0])
 end_theta = float(range_split[1])
 step_theta = float(range_split[2])
 
+loss = loss_speech_yolo.YOLOLoss()
 # threshold = args.decision_threshold
 atwv_dict = {}  # dict: theta: atwv val
 for theta in np.arange(start_theta, end_theta, step_theta):
     print('**********************************************************************')
     print('******************************THETA = {}*****************************'.format(theta))
     print('**********************************************************************')
-    train_speech_yolo.test(test_loader, model, config_dict, theta, args.iou_threshold, args.cuda)
+
+    train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
     train_speech_yolo.test_acc(test_loader, model, theta, config_dict, args.cuda)
     atwv = train_speech_yolo.test_mtwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
     atwv_dict[theta] = atwv
