@@ -34,13 +34,13 @@ If you find our work useful please cite :
 -TODO: finish.... 
 
 
-## How to use: 
+## How to use
 
-### Pretrain the network on the Google Commands dataset
+### Pretrain the network on the Google Commands dataset:
 
 - Download data from [Google Commands](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz).
 
-- Split the ```.wav``` files into ```train, val``` and ```test``` folders ([code][https://github.com/adiyoss/GCommandsPytorch/blob/master/make_dataset.py]). Each file contains a single word. Your data should look as follows:
+- Split the ```.wav``` files into ```train, val``` and ```test``` folders ([code](https://github.com/adiyoss/GCommandsPytorch/blob/master/make_dataset.py)). Each file contains a single word. Your data should look as follows:
 
     ```
     data
