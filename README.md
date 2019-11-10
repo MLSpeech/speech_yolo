@@ -91,16 +91,26 @@ python pretrain_run.py --train_path [path_to_data\train_folder]
 
 ### Run SpeechYOLO
 
-- We ran SpeechYOLO on the LibriSpeech dataset
+- We ran SpeechYOLO on the LibriSpeech dataset. See [data preparation](https://github.com/MLSpeech/speech_yolo/blob/master/librispeech_data_preparation.md) instructions.
 
-- For simplicity, SpeechYOLO code assumes that the `.wav` files are of length 1 sec. 
+- For simplicity, the SpeechYOLO code assumes that the `.wav` files are of length 1 sec each. 
 
-- run: 
+- To train, run: 
 	```
-    python run_speech_yolo.py  --train_data []  
-                               --val_data []
+    python run_speech_yolo.py  --train_data [path_to_train_data]  
+                               --val_data [path_to_validation_data]
                                --arc VGG19
-                               --prev_classification_model []
-                               --save_folder []
-                               --trained_yolo_model []
+                               --prev_classification_model [path_to_model_from_pretrain_part]
+                               --save_folder [folder_to_save_speechyolo_model]
     ```
+
+If you want to load a previously trained `speech_yolo_model` file for further training, add `--trained_yolo_model [path_to_file]`.
+
+- To test, run:
+```
+    python test_yolo.py  --train_data [path_to_train_data]  
+                         --test_data [path_to_test_data]
+                         --model [path_to_speechyolo_model]
+    ```
+
+-TODO: continue...
