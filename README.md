@@ -40,7 +40,7 @@ If you find our work useful please cite :
 
 - Download data from [Google Commands](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz).
 
-- Split the ```.wav``` files into ```train, val``` and ```test``` folders ([code](https://github.com/adiyoss/GCommandsPytorch/blob/master/make_dataset.py)). Each file contains a single word. Your data should look as follows:
+- Each directory contains ```.wav``` files, each containing a single word. Split the keyword directories into ```train, val``` and ```test``` folders ([code](https://github.com/adiyoss/GCommandsPytorch/blob/master/make_dataset.py)). Your data should look as follows:
 
     ```
     data
@@ -77,12 +77,12 @@ If you find our work useful please cite :
     ```
     You should have 30 folders (keywords) in every ```train \ val \test``` directory.
 
-- run ```python pretrain_run.py --train_path [path_to_data\train_folder] 
-								--valid_path [path_to_data\val_folder]
-								--test_path [path_to_data\test_folder]
-								--arc VGG19
-								--cuda 
-								--save_folder [directory_for_saving_models] ```
+- run ```python pretrain_run.py --train_path [path_to_data\train_folder] \
+								--valid_path [path_to_data\val_folder] \
+								--test_path [path_to_data\test_folder] \
+								--arc VGG19 \
+								--cuda  \
+								--save_folder [directory_for_saving_models] \```
 
 	This code runs a convolutional network for multiclass command classification.
 
