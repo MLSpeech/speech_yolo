@@ -8,8 +8,8 @@ Joseph Keshet (joseph.keshet@cs.biu.ac.il)
 SpeechYOLO, inspired by the [YOLO](https://arxiv.org/pdf/1506.02640.pdf) algorithm , uses object detection methods from the vision domain for speech recognition. The goal of SpeechYOLO is to localize boundaries of utterances within the input signal, and to correctly classify them. Our system is composed of a convolutional neural network, with a simple least-meansquares loss function.
 
 
-The paper can be found at (https://arxiv.org/pdf/1904.07704.pdf). \
-If you find our work useful please cite : 
+The paper can be found [here](https://arxiv.org/pdf/1904.07704.pdf). \
+If you find our work useful, please cite: 
 ```
 @article{segal2019speechyolo,
   title={SpeechYOLO: Detection and Localization of Speech Objects},
@@ -31,12 +31,12 @@ If you find our work useful please cite :
     ```
     git clone https://github.com/MLSpeech/speech_yolo.git
     ```
--TODO: finish.... 
+-TODO: finish installation instructions.... 
 
 
 ## How to use
 
-### Pretrain the network on the Google Commands dataset:
+### Pretrain network on the Google Commands dataset:
 
 - Download data from [Google Commands](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz).
 
@@ -87,7 +87,7 @@ python pretrain_run.py --train_path [path_to_data\train_folder]
                        --save_folder [directory_for_saving_models]  
 ```
 	
-	This code runs a convolutional network for multiclass command classification. [TODO: FIX LINES]
+	This code runs a convolutional network for multiclass command classification. 
 
 ### Run SpeechYOLO
 
@@ -104,13 +104,13 @@ python pretrain_run.py --train_path [path_to_data\train_folder]
                                --save_folder [folder_to_save_speechyolo_model]
     ```
 
-If you want to load a previously trained `speech_yolo_model` file for further training, add `--trained_yolo_model [path_to_file]`.
+	If you want to load a previously trained `speech_yolo_model` file for further training, add `--trained_yolo_model [path_to_file]`.
 
 - To test, run:
-```
+	```
     python test_yolo.py  --train_data [path_to_train_data]  
                          --test_data [path_to_test_data]
                          --model [path_to_speechyolo_model]
     ```
 
--TODO: continue...
+	-TODO: continue...
