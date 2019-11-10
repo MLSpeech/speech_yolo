@@ -1,4 +1,4 @@
-# SpeechYOLO: Detection and Localization of Speech Object
+# SpeechYOLO: Detection and Localization of Speech Objects
 
 Yael Segal (segalya@cs.biu.ac.il)\
 Tzeviya Sylvia Fuchs (fuchstz@cs.biu.ac.il) \
@@ -91,14 +91,16 @@ python pretrain_run.py --train_path [path_to_data\train_folder]
 
 ### Run SpeechYOLO
 
+- We ran SpeechYOLO on the LibriSpeech dataset
+
 - For simplicity, SpeechYOLO code assumes that the `.wav` files are of length 1 sec. 
 
 - run: 
 	```
     python run_speech_yolo.py  --train_data []  
-                                --val_data []
-                                --arc VGG19
-                                --prev_classification_model []
-                                --save_folder []
-                                --trained_yolo_model []
+                               --val_data []
+                               --arc VGG19
+                               --prev_classification_model []
+                               --save_folder []
+                               --trained_yolo_model []
     ```
