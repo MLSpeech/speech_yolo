@@ -84,6 +84,7 @@ If you find our work useful please cite :
 								--cuda  
 								--save_folder [directory_for_saving_models]  
 								```
+	
 	This code runs a convolutional network for multiclass command classification. [TODO: FIX LINES]
 
 ### Run SpeechYOLO
@@ -91,6 +92,6 @@ If you find our work useful please cite :
 - For simplicity, SpeechYOLO code assumes that the `.wav` files are of length 1 sec. 
 
 - run: 
-	```python run_speech_yolo.py --train_path [path_to_data\train_folder]
-								--train_path [path_to_data\train_folder]
+	```python run\_speech\_yolo.py --train_path lalala
+								   --train_path lalalal
 								```
