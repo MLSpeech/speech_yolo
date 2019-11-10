@@ -78,8 +78,11 @@ If you find our work useful please cite :
     You should have 30 folders (keywords) in every ```train \ val \test``` directory.
 
 - run ```python pretrain_run.py --train_path [path_to_data\train_folder] 
+
 								--valid_path [path_to_data\val_folder] 
+								
 								--test_path [path_to_data\test_folder] 
+
 								--arc VGG19 
 								--cuda  
 								--save_folder [directory_for_saving_models]  
