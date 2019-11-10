@@ -21,3 +21,69 @@ If you find our work useful please cite :
 ```
 
 ------
+
+
+## Installation instructions
+
+- Python 3.6+ (???)
+
+- Download the code:
+    ```
+    git clone https://github.com/MLSpeech/speech_yolo.git
+    ```
+-TODO: finish.... 
+
+
+## How to use: 
+
+### Pretrain the network on the Google Commands dataset
+
+- Download data from [Google Commands](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz).
+
+- Split the ```.wav``` files into ```train, val``` and ```test``` folders ([code][https://github.com/adiyoss/GCommandsPytorch/blob/master/make_dataset.py]). Each file contains a single word. Your data should look as follows:
+
+    ```
+    data
+	    └───train
+	    |   |_____word_1
+	    │   |       │   1.wav
+	    │   |       │   2.wav
+	    │   |       │   3.wav
+	    │   |
+	    |   |_____word_2
+	    │   |       │   4.wav
+	    │   |       │   5.wav
+	    │   |       │   6.wav          
+	    └───val
+	    |   |_____word_1
+	    │   |       │   7.wav
+	    │   |       │   8.wav
+	    │   |       │   9.wav
+	    │   |
+	    |   |_____word_2
+	    │   |       │   10.wav
+	    │   |       │   11.wav
+	    │   |       │   12.wav     
+	    └───test
+	    |   |_____word_1
+	    │   |       │   13.wav
+	    │   |       │   14.wav
+	    │   |       │   15.wav
+	    │   |
+	    |   |_____word_2
+	    │   |       │   16.wav
+	    │   |       │   17.wav
+	    │   |       │   18.wav     
+    ```
+    You should have 30 folders (keywords) in every ```train \ val \test``` directory.
+
+- run ```python pretrain_run.py --train_path [path_to_data\train_folder] 
+								--valid_path [path_to_data\val_folder]
+								--test_path [path_to_data\test_folder]
+								--arc VGG19
+								--cuda 
+								--save_folder [directory_for_saving_models] ```
+
+	This code runs a convolutional network for multiclass command classification.
+
+### Run SpeechYOLO
