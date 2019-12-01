@@ -25,13 +25,20 @@ If you find our work useful, please cite:
 
 ## Installation instructions
 
-- Python 3.6+ (???)
+- Python 3.6+ 
+
+- Pytorch
+
+- Numpy
+
+- librosa
+
+- soundfile
 
 - Download the code:
     ```
     git clone https://github.com/MLSpeech/speech_yolo.git
     ```
--TODO: finish installation instructions.... 
 
 
 ## How to use
@@ -75,7 +82,7 @@ If you find our work useful, please cite:
 	    │   |       │   17.wav
 	    │   |       │   18.wav     
     ```
-    You should have 30 folders (keywords) in every ```train \ val \test``` directory.
+    You should have 30 folders (keywords) in every ```train \ val \test``` directory. See example in [gcommand_toy_example](https://github.com/MLSpeech/speech_yolo/tree/master/gcommand_toy_example).
 
 - run:
 	```
@@ -114,5 +121,3 @@ If you find our work useful, please cite:
                          --test_data [path_to_test_data]
                          --model [path_to_speechyolo_model]
     ```
-
-	-TODO: continue...
