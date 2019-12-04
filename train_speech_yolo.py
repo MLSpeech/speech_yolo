@@ -94,11 +94,6 @@ def yolo_accuracy(prediction, target, C, B, K, T, iou_t=0.5, is_cuda=False):
     iou_select = iou * iou_mask.float()
 
 
-    # print('iou select:')
-    # print(iou_select)
-    # print('****************************************')
-    # print('iou select reg:')
-    # print(iou_select_reg)
     mean_iou_correct = 0.0
     mean_iou_wrong = 0.0
     is_object = target[:, :, -1].cpu().numpy()
@@ -111,7 +106,7 @@ def yolo_accuracy(prediction, target, C, B, K, T, iou_t=0.5, is_cuda=False):
                     wrong_class_low_iou += 1
                 else:
                     wrong_class_high_iou += 1
-                    # print idx[batch]
+                    
                 mean_iou_wrong += iou_select[batch, cell].item()
             else:  # predict object with right class
                 if iou_select[batch, cell].item() < iou_t:
@@ -128,7 +123,7 @@ def yolo_accuracy(prediction, target, C, B, K, T, iou_t=0.5, is_cuda=False):
             mean_iou_correct, mean_iou_wrong
 
 
-def test(loader, model, loss_func, config_dict, threshold, iou_threshold, is_cuda, print_progress=True):
+def test(loader, model, loss_func, config_dict, threshold, iou_threshold, is_cuda, print_progress=False):
     with torch.no_grad():
         model.eval()
         test_loss = 0
@@ -167,7 +162,6 @@ def test(loader, model, loss_func, config_dict, threshold, iou_threshold, is_cud
             global_fourth_part += fourth_part
             global_fifth_part += fifth_part
 
-            # def yolo_accuracy(prediction, target, C, B, K, T, iou_t=0.5, is_cuda=False):
             accuracy_values[0], accuracy_values[1], accuracy_values[2], accuracy_values[3], accuracy_values[4], \
             accuracy_values[5], accuracy_values[6], mean_iou_correct, mean_iou_wrong =\
                 yolo_accuracy(output, target, C, B, K, threshold, iou_threshold, is_cuda)
@@ -227,7 +221,6 @@ def test(loader, model, loss_func, config_dict, threshold, iou_threshold, is_cud
     else:
         total_mean_iou_wrong = total_mean_iou_wrong / (wrong_class_high_iou + wrong_class_low_iou)
 
-    # pdb.set_trace()
     if print_progress:
         print('\nTest set: Average loss: {:.4f}, \n '
               'mistake: {}/{} ({:.0f}%) , correct no object: {}/{} ({:.0f}%) , correct object: {}/{} ({:.0f}%) \n'
@@ -243,7 +236,7 @@ def test(loader, model, loss_func, config_dict, threshold, iou_threshold, is_cud
     return test_loss
 
 
-def test_acc(loader, model, threshold, config_dict, is_cuda):
+def evaluation_measures(loader, model, threshold, config_dict, is_cuda):
     t_cuda = torch.cuda if is_cuda else torch
     with torch.no_grad():
         model.eval()
@@ -260,7 +253,7 @@ def test_acc(loader, model, threshold, config_dict, is_cuda):
             acc_per_term, actual_lens = eval_actual(output, target,  threshold, config_dict)
             total_acc_per_term += acc_per_term
             total_actual_lens += actual_lens
-            #pdb.set_trace()
+            
 
     f1_per_term = np.zeros(num_classes)
     precision = 0
@@ -280,21 +273,33 @@ def test_acc(loader, model, threshold, config_dict, is_cuda):
     if float(temp_acc_sum[0]) == 0: recall = 0
     else: recall = float(temp_acc_sum[0]) / float(temp_acc_sum[0] + temp_acc_sum[2])
 
-    print ('total correct {}, total all {}'.format(float(total_actual_lens[0]), total_actual_lens[1]))
-
-    #print('Val Acc: {}'.format(float(total_acc)/len(loader))) 
+    
     print('threshold: {}'.format(threshold))
-    print('Actual:')
-    print('Val Acc: {}'.format(float(total_actual_lens[0])/total_actual_lens[1])) 
-    print('F1 mean: {}'.format(np.mean(f1_per_term)))#np.sum(f1_per_term)/float(NUM_CLASSES-12)))
+    print('Actual Accuracy (Val): {}'.format(float(total_actual_lens[0])/total_actual_lens[1])) 
+    print('F1 mean: {}'.format(np.mean(f1_per_term)))
     print('precision: {}'.format(precision))
     print('recall: {}'.format(recall))
     print('**************')
 
-    #return total_acc
 
 
 def convert_yolo_tags(pred, c, b, k, threshold):
+
+    ''' 
+    YOLO's outputs are tags given in format: (cell_i, box_j, (t, delta_t, p_b_{i,j}), p_{c_i}(k) ).
+    This function converts it to tags in the following format: (start, end, word)
+
+    inputs:
+    pred: prediction or given target labels, in yolo format
+    c: number of cells
+    b: number of timing boxes
+    k: number of keywords
+    threshold: if the product of: p_b_{i,j} * p_{c_i}(k) is greather than the threshold, we predict that a keyword exists.
+
+    output:
+    final_pred_labels: dictionary, whose keys are the keywords. Every keyword has an array of (start, end) values.
+
+    '''
     
     pred_ws, pred_start, pred_end, pred_conf, pred_class_prob = utils.extract_data(pred, c, b, k)
     class_max, class_indices = torch.max(pred_class_prob, 3)
@@ -358,12 +363,13 @@ def convert_yolo_tags(pred, c, b, k, threshold):
     return final_pred_labels
 
 
-def jointly_position(pred_labels, target_labels): #find position for eval_actual 
+def counter_for_actual_accuracy(pred_labels, target_labels): #find position for eval_actual 
     
-    #=================================IOU CHOICES==================================
+
+    #given list of targets and predictions, find which prediction corresponds to which target.
     iou_choice_counter = 0
     mega_iou_choice = []
-    for key, pred_label_list in pred_labels.items():
+    for key, pred_label_list in pred_labels.items(): 
         if key in target_labels: 
 
             iou_list = []
@@ -397,7 +403,9 @@ def jointly_position(pred_labels, target_labels): #find position for eval_actual
 
             mega_iou_choice.extend(iou_choice)
 
-    #=================================
+    #============================================================================================
+
+    #for actual accuracy: check if center of prediction is within (start, end) boundaries of target
     for item in mega_iou_choice:
         iou_val, pred_idx, target_idx, pred_label, target_label = item
         pred_start, pred_end = pred_label
@@ -405,7 +413,6 @@ def jointly_position(pred_labels, target_labels): #find position for eval_actual
 
         center_pred = float(pred_end + pred_start) / 2
 
-        # if center_pred >=target_start and center_pred <= target_end:
         if round(center_pred,2) >= round(target_start,2) and round(center_pred,2) <= round(target_end,2):
             iou_choice_counter += 1
 
@@ -423,7 +430,7 @@ def eval_actual(yolo_output, target, threshold, config_dict):
     pred_labels = convert_yolo_tags(yolo_output, C, B, K, threshold)
     target_labels = convert_yolo_tags(target[:,:,:-1], C, B, K, threshold)
 
-    num_position_correct = jointly_position(pred_labels, target_labels) #find position for eval_actual 
+    num_position_correct = counter_for_actual_accuracy(pred_labels, target_labels) #find position for eval_actual 
 
     num_classes = config_dict['K']
     acc_per_term = np.zeros((num_classes,3)) #tp, fp, fn
@@ -454,7 +461,6 @@ def eval_actual(yolo_output, target, threshold, config_dict):
         target_word = int(target_key.split('_')[1])
         count_existance[target_word] += len(target_list)
         exists_counter += len(target_list)
-    #pdb.set_trace()
 
     for item in range(len(acc_per_term)): #false negative == miss
         acc_per_term[item][2] = count_existance[item] - acc_per_term[item][0] 
@@ -464,15 +470,15 @@ def eval_actual(yolo_output, target, threshold, config_dict):
     return acc_per_term, actual_lens
 
 
-def test_mtwv(loader, model, config_dict, threshold, wav_len, is_cuda):
+def test_atwv(loader, model, config_dict, threshold, wav_len, is_cuda):
     with torch.no_grad():
         model.eval()
 
+        #list of keywords from "Jointly Learning to Locate and Classify Words using Convolutional Networks" for comparison
         keyword_list =['any', 'easily', 'known', 'only', 'show', 'battle', 'fifty', 'land', 'perfect', 'thank', 'birds', 'filled', 'lie', 'perhaps', 'them', 'cannot', 'great', 'never', 'presence', 'years' ]
         keyword_indices = [loader.dataset.class_to_idx[keyword] for keyword in keyword_list]
-        #keyword_indices = [x + y for x, y in zip(keyword_indices, [1]*20)] #adding 1 to all indices
         
-        print(list(zip(keyword_list, keyword_indices)))
+        # print(list(zip(keyword_list, keyword_indices)))
         
         t_cuda= torch.cuda if is_cuda else torch
 
@@ -486,7 +492,6 @@ def test_mtwv(loader, model, config_dict, threshold, wav_len, is_cuda):
 
             twv_variable_calculations(kws_target, output, keyword_indices, calcs_for_atwv_map, config_dict, threshold)
 
-        #pdb.set_trace()
         if is_cuda:
             s = model.module.c
         else:
@@ -494,7 +499,7 @@ def test_mtwv(loader, model, config_dict, threshold, wav_len, is_cuda):
         t_speech = len(loader.dataset) * wav_len #total amount of speech in the test data (in seconds) 
         this_atwv = mtwv(calcs_for_atwv_map, t_speech)
 
-    print('ATWV: {}'.format(this_atwv)) 
+    # print('ATWV: {}'.format(this_atwv)) 
     return this_atwv
 
 

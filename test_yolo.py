@@ -65,8 +65,8 @@ for theta in np.arange(start_theta, end_theta, step_theta):
     print('**********************************************************************')
 
     train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
-    train_speech_yolo.test_acc(test_loader, model, theta, config_dict, args.cuda)
-    atwv = train_speech_yolo.test_mtwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
+    train_speech_yolo.evaluation_measures(test_loader, model, theta, config_dict, args.cuda)
+    atwv = train_speech_yolo.test_atwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
     atwv_dict[theta] = atwv
     # print('**********************************************************************')
 
