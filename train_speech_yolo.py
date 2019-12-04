@@ -492,10 +492,6 @@ def test_atwv(loader, model, config_dict, threshold, wav_len, is_cuda):
 
             twv_variable_calculations(kws_target, output, keyword_indices, calcs_for_atwv_map, config_dict, threshold)
 
-        if is_cuda:
-            s = model.module.c
-        else:
-            s = model.c
         t_speech = len(loader.dataset) * wav_len #total amount of speech in the test data (in seconds) 
         this_atwv = mtwv(calcs_for_atwv_map, t_speech)
 
@@ -575,10 +571,6 @@ def twv_variable_calculations(target, yolo_output, keyword_indices, calcs_for_at
 
 
 def mtwv(calcs_for_atwv_map, t_speech):
-    #pdb.set_trace()
-    #c_over_v = 0.1 #from article
-    #pr_term = 0.0001
-    #beta = c_over_v * (math.pow(pr_term, -1.0) - 1)
     beta = 999.9
 
     current_val_list = []
@@ -601,21 +593,21 @@ def mtwv(calcs_for_atwv_map, t_speech):
         current_val_list.append(current_val)
  
 
-        #print
-        print('========================print ATWV=========================')
-        print('keyword: {}'.format(keyword))
-        print('n_true: {}'.format(n_true))
-        print('n_correct: {}'.format(n_correct))
-        print('n_spurious: {}'.format(n_spurious))
-        print('t_speech: {}'.format(t_speech))
-        print('n_nnt: {}'.format(n_nnt))
-        print('p_miss: {}'.format(p_miss))
-        print('p_false_alarm: {}'.format(p_false_alarm))
-        print('current atwv val for term: {}'.format(current_val))
-        print('===========================================================')
+        # #print
+        # print('========================print ATWV=========================')
+        # print('keyword: {}'.format(keyword))
+        # print('n_true: {}'.format(n_true))
+        # print('n_correct: {}'.format(n_correct))
+        # print('n_spurious: {}'.format(n_spurious))
+        # print('t_speech: {}'.format(t_speech))
+        # print('n_nnt: {}'.format(n_nnt))
+        # print('p_miss: {}'.format(p_miss))
+        # print('p_false_alarm: {}'.format(p_false_alarm))
+        # print('current atwv val for term: {}'.format(current_val))
+        # print('===========================================================')
 
-    print(current_val_list)
-    print('kwd not in datset: {}'.format(keyword_not_in_dataset))
+    # print(current_val_list)
+    # print('kwd not in dataset: {}'.format(keyword_not_in_dataset))
     average = m_sum/(len(calcs_for_atwv_map.keys()) - keyword_not_in_dataset) #divide by number of keywords
     return 1 - average
 
