@@ -60,5 +60,5 @@ data
     │   |       │   17.wrd     
 ```
 
-
+See [toy example](https://github.com/MLSpeech/speech_yolo/tree/master/librispeech_toy_example).
 

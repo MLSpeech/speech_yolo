@@ -14,11 +14,11 @@ import sys
 # Training settings
 parser = argparse.ArgumentParser(
     description='ConvNets for Speech Commands Recognition')
-parser.add_argument('--train_path', default='/data/adiyoss/datasets/gcommands/data/train',
+parser.add_argument('--train_path', default='gcommand_toy_example/train',
                     help='path to the train data folder')
-parser.add_argument('--test_path', default='/data/adiyoss/datasets/gcommands/data/test',
+parser.add_argument('--test_path', default='gcommand_toy_example/test',
                     help='path to the test data folder')
-parser.add_argument('--valid_path', default='/data/adiyoss/datasets/gcommands/data/valid',
+parser.add_argument('--valid_path', default='gcommand_toy_example/valid',
                     help='path to the valid data folder')
 parser.add_argument('--batch_size', type=int, default=32,
                     metavar='N', help='training and valid batch size')
@@ -53,7 +53,7 @@ parser.add_argument('--window_type', default='hamming',
                     help='window type for the stft')
 parser.add_argument('--normalize', default=True,
                     help='boolean, wheather or not to normalize the spect')
-parser.add_argument('--save_folder', type=str,  default='/home/mlspeech/segalya/yolo/YoloRelease/GcommandModels',
+parser.add_argument('--save_folder', type=str,  default='gcommand_pretraining_model/',
                     help='path to save the final model')
 parser.add_argument('--class_num', type=int,  default=30,
                     help='number of classes to classify')

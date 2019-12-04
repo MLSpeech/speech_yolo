@@ -14,13 +14,13 @@ import loss_speech_yolo
 
 parser = argparse.ArgumentParser(description='test  speechYolo model')
 parser.add_argument('--train_data', type=str,
-                    default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Train_960_no_overlap',
+                    default='librispeech_toy_example/train',
                     help='location of the train data')
 parser.add_argument('--test_data', type=str,
-                    default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Test_words_960',
+                    default='librispeech_toy_example/test',
                     help='location of the train data')
 parser.add_argument('--model', type=str,
-                    default='/home/mlspeech/segalya/yolo/speech_yolo/SpeechYoloModels/opt_adam_lr_0.001_batch_size_32_arc_VGG19_c_6_b_2_k_1000noobject_conf_0.5_obj_conf_1_coordinate_100_class_conf_1_loss_type_mse_.pth',
+                    default='speechyolo_model/opt_adam_lr_0.001_batch_size_32_arc_VGG19_c_6_b_2_k_1000noobject_conf_0.5_obj_conf_1_coordinate_10_class_conf_1_loss_type_mse_.pth',
                     help='the location of the trained speech yolo model')
 parser.add_argument('--batch_size', type=int, default=4, metavar='N',
                     help='batch size')

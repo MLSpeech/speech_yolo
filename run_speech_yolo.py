@@ -11,9 +11,9 @@ from train_speech_yolo import train, test
 import loss_speech_yolo
 
 parser = argparse.ArgumentParser(description='train yolo model')
-parser.add_argument('--train_data', type=str, default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Train_960_no_overlap',
+parser.add_argument('--train_data', type=str, default='librispeech_toy_example/train',
                     help='location of the train data')
-parser.add_argument('--val_data', type=str, default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Dev_words_960',
+parser.add_argument('--val_data', type=str, default='librispeech_toy_example/validation',
                     help='location of the validation data')
 parser.add_argument('--arc', type=str, default='VGG19',
                     help='arch method (LeNet, VGG11, VGG13, VGG16, VGG19)')
@@ -22,7 +22,7 @@ parser.add_argument('--opt', type=str, default='adam',
 parser.add_argument('--momentum', type=float, default='0.9',
                     help='momentum')
 parser.add_argument('--c_b_k', type=str, default='6_2_1000', help='C B K parameters')
-parser.add_argument('--prev_classification_model', type=str, default='/home/mlspeech/segalya/yolo/speech_yolo/GcommandModels/optimizer_adam_lr_0.001_batch_size_32_arc_VGG19_class_num_30.pth',
+parser.add_argument('--prev_classification_model', type=str, default='gcommand_pretraining_model/optimizer_adam_lr_0.001_batch_size_32_arc_VGG19_class_num_30.pth',
                     help='the location of the prev classification model')
 parser.add_argument('--lr', type=float, default=0.001,
                     help='initial learning rate')
@@ -40,7 +40,7 @@ parser.add_argument('--patience', type=int, default=5, metavar='N',
                     help='how many epochs of no loss improvement should we wait before stop training')
 parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                     help='report interval')
-parser.add_argument('--save_folder', type=str,  default='/home/mlspeech/segalya/yolo/YoloRelease/SpeechYoloModels',
+parser.add_argument('--save_folder', type=str,  default='speechyolo_model',
                     help='path to save the final model')
 parser.add_argument('--save_file', type=str,  default='',
                     help='filename to save the final model')

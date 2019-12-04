@@ -125,4 +125,4 @@ If you find our work useful, please cite:
                          --model [path_to_speechyolo_model]
     ```
 
-- TODO: provide working model, show its evaluation measure results. 
+- TODO: provide working model, show its evaluation measure results. , add toy data for train val and test sets
