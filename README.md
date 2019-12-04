@@ -96,11 +96,14 @@ If you find our work useful, please cite:
 	
 	This code runs a convolutional network for multiclass command classification. 
 
+	Our pretraining model could be found [here](https://github.com/MLSpeech/speech_yolo/tree/master/gcommand_pretraining_model).
+
 ### Run SpeechYOLO
 
 - We ran SpeechYOLO on the LibriSpeech dataset. See [data preparation](https://github.com/MLSpeech/speech_yolo/blob/master/librispeech_data_preparation.md) instructions.
 
 - For simplicity, the SpeechYOLO code assumes that the `.wav` files are of length 1 sec each. 
+
 
 - To train, run: 
 	```
@@ -121,3 +124,5 @@ If you find our work useful, please cite:
                          --test_data [path_to_test_data]
                          --model [path_to_speechyolo_model]
     ```
+
+- TODO: provide working model, show its evaluation measure results. 

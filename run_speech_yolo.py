@@ -15,7 +15,7 @@ parser.add_argument('--train_data', type=str, default='/data/tzya/gcommand_style
                     help='location of the train data')
 parser.add_argument('--val_data', type=str, default='/data/tzya/gcommand_style/split_data/LibriSpeech_cnvt_Dev_words_960',
                     help='location of the validation data')
-parser.add_argument('--arc', type=str, default='VGG11',
+parser.add_argument('--arc', type=str, default='VGG19',
                     help='arch method (LeNet, VGG11, VGG13, VGG16, VGG19)')
 parser.add_argument('--opt', type=str, default='adam',
                     help='optimization method: adam || sgd')
