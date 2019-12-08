@@ -34,7 +34,7 @@ parser.add_argument('--dropout', type=float,  default=0.0,
                     help='dropout probability value')
 parser.add_argument('--seed', type=int, default=1245,
                     help='random seed')
-parser.add_argument('--cuda', action='store_false',
+parser.add_argument('--cuda', action='store_true',
                     help='use CUDA')
 parser.add_argument('--patience', type=int, default=5, metavar='N',
                     help='how many epochs of no loss improvement should we wait before stop training')

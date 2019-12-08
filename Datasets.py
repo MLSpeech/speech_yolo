@@ -206,7 +206,7 @@ class SpeechYoloDataSet(Dataset):
         for yolo_item in line_yolo_data:
             index = yolo_item[0]
             x = yolo_item[1]
-            w = yolo_item[2]
+            w = math.sqrt(yolo_item[2])
             obj_class = yolo_item[3]
             target[index, self.B*3 + obj_class] = 1  # one hot vector
             target[index, -1] = 1  # there is object in this grid cell

@@ -273,10 +273,13 @@ def evaluation_measures(loader, model, threshold, config_dict, is_cuda):
     if float(temp_acc_sum[0]) == 0: recall = 0
     else: recall = float(temp_acc_sum[0]) / float(temp_acc_sum[0] + temp_acc_sum[2])
 
+    if float(temp_acc_sum[0]) + float(temp_acc_sum[1]) + float(temp_acc_sum[2]) == 0: f1 = 0
+    else: f1 = (2 * float(temp_acc_sum[0]))/ ( 2 * float(temp_acc_sum[0]) + float(temp_acc_sum[1]) + float(temp_acc_sum[2]))
+
     
     print('threshold: {}'.format(threshold))
     print('Actual Accuracy (Val): {}'.format(float(total_actual_lens[0])/total_actual_lens[1])) 
-    print('F1 mean: {}'.format(np.mean(f1_per_term)))
+    print('F1 regular mean: {}'.format(np.mean(f1)))
     print('precision: {}'.format(precision))
     print('recall: {}'.format(recall))
     print('**************')
@@ -495,7 +498,7 @@ def test_atwv(loader, model, config_dict, threshold, wav_len, is_cuda):
         t_speech = len(loader.dataset) * wav_len #total amount of speech in the test data (in seconds) 
         this_atwv = mtwv(calcs_for_atwv_map, t_speech)
 
-    # print('ATWV: {}'.format(this_atwv)) 
+    print('ATWV: {}'.format(this_atwv)) 
     return this_atwv
 
 
@@ -592,8 +595,6 @@ def mtwv(calcs_for_atwv_map, t_speech):
         m_sum += current_val
         current_val_list.append(current_val)
  
-
-        # #print
         # print('========================print ATWV=========================')
         # print('keyword: {}'.format(keyword))
         # print('n_true: {}'.format(n_true))
@@ -607,7 +608,8 @@ def mtwv(calcs_for_atwv_map, t_speech):
         # print('===========================================================')
 
     # print(current_val_list)
-    # print('kwd not in dataset: {}'.format(keyword_not_in_dataset))
+    # print('kwd not in datset: {}'.format(keyword_not_in_dataset))
+
     average = m_sum/(len(calcs_for_atwv_map.keys()) - keyword_not_in_dataset) #divide by number of keywords
     return 1 - average
 

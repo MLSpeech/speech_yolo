@@ -27,7 +27,7 @@ parser.add_argument('--batch_size', type=int, default=4, metavar='N',
 parser.add_argument('--seed', type=int, default=1245,
                     help='random seed')
 parser.add_argument('--theta_range', type=str, default='0.1_1.0_0.1', help='0.0_1.0_0.1 format: from 0.0 to 1.0 with step of 0.1')
-parser.add_argument('--cuda', action='store_false',
+parser.add_argument('--cuda', action='store_true',
                     help='use CUDA')
 parser.add_argument('--iou_threshold', type=float, default=0.5,
                     help='high iou threshold')
@@ -64,8 +64,8 @@ for theta in np.arange(start_theta, end_theta, step_theta):
     print('******************************THETA = {}*****************************'.format(theta))
     print('**********************************************************************')
 
-    train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
-    train_speech_yolo.evaluation_measures(test_loader, model, theta, config_dict, args.cuda)
+    # train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
+    # train_speech_yolo.evaluation_measures(test_loader, model, theta, config_dict, args.cuda)
     atwv = train_speech_yolo.test_atwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
     atwv_dict[theta] = atwv
     # print('**********************************************************************')

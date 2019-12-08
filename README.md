@@ -27,9 +27,9 @@ If you find our work useful, please cite:
 
 - Python 3.6+ 
 
-- Pytorch
+- Pytorch 1.3.1
 
-- Numpy
+- numpy
 
 - librosa
 
@@ -118,6 +118,8 @@ If you find our work useful, please cite:
 
 	`--trained_yolo_model [path_to_file]`.
 
+	Our trained model could be found [here](https://github.com/MLSpeech/speech_yolo/tree/master/speechyolo_model).
+
 - To test, run:
 	```
     python test_yolo.py  --train_data [path_to_train_data]  
@@ -125,4 +127,16 @@ If you find our work useful, please cite:
                          --model [path_to_speechyolo_model]
     ```
 
-- TODO: provide working model, show its evaluation measure results. , add toy data for train val and test sets
+
+Our results for threshold theta = 0.4 are:
+
+````
+threshold: 0.4
+Actual Accuracy (Val): 0.7746057716719794
+F1 regular mean: 0.806897659409815
+precision: 0.836339972153278
+recall: 0.7794578126322322
+````
+
+
+

@@ -125,7 +125,7 @@ def extract_data(out_tesor, C, B, K):
 
     out_coords = out_tesor[:, :, :3 * B].contiguous().view(-1, C, B, 3)
     out_xs = out_coords[:, :, :, 0].view(-1, C, B) / float(C)
-    out_ws = out_coords[:, :, :, 1].view(-1, C, B)
+    out_ws = torch.pow(out_coords[:, :, :, 1].view(-1, C, B), 2)
     out_start = (out_xs - (out_ws * 0.5))
     out_end = (out_xs + (out_ws * 0.5))
     pred_class_prob = out_tesor[:, :, 3 * B:].contiguous().view(-1, C, K)
