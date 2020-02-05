@@ -1,4 +1,4 @@
-__author__ = 'YaelSegal'
+__author__ = 'YaelSegal & TzeviyaFuchs'
 import torch
 import numpy as np
 import utils
