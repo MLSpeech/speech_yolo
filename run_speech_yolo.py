@@ -1,4 +1,4 @@
-__author__ = 'YaelSegal'
+__author__ = 'YaelSegal & TzeviyaFuchs'
 
 import torch.optim as optim
 import torch
