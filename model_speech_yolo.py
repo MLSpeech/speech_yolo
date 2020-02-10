@@ -1,4 +1,4 @@
-__author__ = 'YaelSegal'
+__author__ = 'YaelSegal & TzeviyaFuchs'
 # VGG model was taken from Yossi Adi
 import torch.nn as nn
 import torch.nn.functional as F
