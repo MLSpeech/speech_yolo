@@ -37,7 +37,7 @@ class YOLOLoss:
         # targets
         target_coords = y_true[:, :, :3 * B].contiguous().view(-1, C, B, 3)  # get all the x,w values for all the boxes
         target_xs = target_coords[:, :, :, 0].view(-1, C, B, 1)
-        target_xs_no_norm = target_coords[:, :, :, 1].view(-1, C, B, 1) / float(C)
+        target_xs_no_norm = target_coords[:, :, :, 0].view(-1, C, B, 1) / float(C)
         target_ws = torch.pow(target_coords[:, :, :, 1].view(-1, C, B, 1), 2)  # assuming the prediction is for sqrt(w)
         target_conf = target_coords[:, :, :, 2].view(-1, C, B, 1)
         target_start = target_xs_no_norm - (target_ws * 0.5)
@@ -47,7 +47,7 @@ class YOLOLoss:
         # pred
         pred_coords = y_pred[:, :, :3 * B].contiguous().view(-1, C, B, 3)  # get all the x,w values for all the boxes
         pred_xs = pred_coords[:, :, :, 0].view(-1, C, B, 1)
-        pred_xs_no_norm = pred_coords[:, :, :, 1].view(-1, C, B, 1) / float(C)
+        pred_xs_no_norm = pred_coords[:, :, :, 0].view(-1, C, B, 1) / float(C)
         pred_ws = torch.pow(pred_coords[:, :, :, 1].view(-1, C, B, 1), 2)  # assuming the prediction is for sqrt(w)
         pred_conf = pred_coords[:, :, :, 2].view(-1, C, B, 1)
         pred_start = pred_xs_no_norm - (pred_ws * 0.5)
