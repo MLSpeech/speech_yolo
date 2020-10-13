@@ -118,7 +118,7 @@ If you find our work useful, please cite:
 
 	`--trained_yolo_model [path_to_file]`.
 
-	Our trained model could be found [here](https://github.com/MLSpeech/speech_yolo/tree/master/speechyolo_model).
+	Our trained model could be found here: [vgg11](https://drive.google.com/file/d/1HbWmcZqPQSrjKbffw5clzi6g4lr2O86O/view), [vgg19](https://drive.google.com/file/d/1sMLbAQT_iaF96YR4xWbjxvA-UwuaSdEF/view).
 
 - To test, run:
 	```
