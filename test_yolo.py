@@ -19,6 +19,9 @@ parser.add_argument('--train_data', type=str,
 parser.add_argument('--test_data', type=str,
                     default='librispeech_toy_example/test',
                     help='location of the train data')
+parser.add_argument('--word_list', type=str,
+                    default='word_list.txt',
+                    help='location of the word list ')
 parser.add_argument('--model', type=str,
                     default='speechyolo_model/opt_adam_lr_0.001_batch_size_32_arc_VGG19_c_6_b_2_k_1000noobject_conf_0.5_obj_conf_1_coordinate_10_class_conf_1_loss_type_mse_.pth',
                     help='the location of the trained speech yolo model')
@@ -47,7 +50,7 @@ if args.cuda:
     model = torch.nn.DataParallel(model).cuda()
 
 test_dataset = Datasets.SpeechYoloDataSet(classes_root_dir=args.train_data, this_root_dir=args.test_data,
-                                          yolo_config=config_dict)
+                                          yolo_config=config_dict, words_list_file=args.word_list)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=20,
                                           pin_memory=args.cuda, sampler=None)
 
@@ -64,12 +67,42 @@ for theta in np.arange(start_theta, end_theta, step_theta):
     print('******************************THETA = {}*****************************'.format(theta))
     print('**********************************************************************')
 
-    # train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
-    # train_speech_yolo.evaluation_measures(test_loader, model, theta, config_dict, args.cuda)
-    atwv = train_speech_yolo.test_atwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
-    atwv_dict[theta] = atwv
+    train_speech_yolo.test(test_loader, model,loss.loss, config_dict, theta, args.iou_threshold, args.cuda)
+    train_speech_yolo.evaluation_measures(test_loader, model, theta, config_dict, args.cuda)
+    # atwv = train_speech_yolo.test_atwv(test_loader, model, config_dict, theta, wav_len=1, is_cuda=args.cuda)
+    # atwv_dict[theta] = atwv
     # print('**********************************************************************')
 
 print('====> SORTED ATWV:')
 for key in sorted(atwv_dict):
     print(key, atwv_dict[key])
+
+
+# checkpoint11 = torch.load('vgg11_all_train_march13_arc.pth')
+# checkpoint19 = torch.load('vgg19_all_train_march15_arc.pth')
+
+
+# config_dict = {'C': 6, 'B': 2, 'K': 1000}
+
+# state11 = {'acc': checkpoint11['acc'], 
+# 'wav_len': checkpoint11['wav_len'], 
+# 'config_dict': config_dict, 
+# 'all_conv': checkpoint11['all_conv'], 
+# 'epoch': checkpoint11['epoch'], 
+# 'net': checkpoint11['net'], 
+# 'dropout': checkpoint11['dropout'], 
+# 'arc': checkpoint11['arc']}
+
+
+# state19 = {'acc': checkpoint19['acc'], 
+# 'wav_len': checkpoint19['wav_len'], 
+# 'config_dict': config_dict, 
+# 'all_conv': checkpoint19['all_conv'], 
+# 'epoch': checkpoint19['epoch'], 
+# 'net': checkpoint19['net'], 
+# 'dropout': checkpoint19['dropout'], 
+# 'arc': checkpoint19['arc']}
+
+# torch.save(state11, 'vgg11_all_train_march13_arc.pth')
+# torch.save(state19, 'vgg19_all_train_march15_arc.pth')
+

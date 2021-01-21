@@ -60,6 +60,7 @@ class SpeechYoloVGGNet(nn.Module):
 
         last_input_size = 512
         self.model = nn.Sequential(*self.removed)
+        self.batch_norm = nn.BatchNorm1d(last_input_size)
         self.last_layer = nn.Linear(last_input_size, self.c * (self.b * 3 + self.k))
         self.init_weight()
 

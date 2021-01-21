@@ -4,6 +4,8 @@ import numpy as np
 import utils
 import random
 
+import pdb
+
 #NUM_CLASSES = 1000
 GAP_THRESH = 0.01 #MINIMUM GAP TO SEPARATE TWO IDENTICLE WORDS
 SR = 16000
@@ -432,6 +434,8 @@ def eval_actual(yolo_output, target, threshold, config_dict):
 
     pred_labels = convert_yolo_tags(yolo_output, C, B, K, threshold)
     target_labels = convert_yolo_tags(target[:,:,:-1], C, B, K, threshold)
+
+    # pdb.set_trace()
 
     num_position_correct = counter_for_actual_accuracy(pred_labels, target_labels) #find position for eval_actual 
 

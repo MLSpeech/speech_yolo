@@ -3,10 +3,13 @@
 
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.sampler import Sampler
+import numpy as np
 import os
 import torch
 import math
 import utils
+
+import pdb
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -110,7 +113,7 @@ class ClassificationLoader(Dataset):
 
 
 class SpeechYoloDataSet(Dataset):
-    def __init__(self, classes_root_dir, this_root_dir, yolo_config, augment=False):
+    def __init__(self, classes_root_dir, this_root_dir, yolo_config, words_list_file = None, augment=False):
         """
         :param root_dir:
         :param yolo_config: dictionary that contain the require data for yolo (C, B, K)
@@ -120,7 +123,22 @@ class SpeechYoloDataSet(Dataset):
         self.C = yolo_config["C"]
         self.B = yolo_config["B"]
         self.K = yolo_config["K"]
-        classes, class_to_idx = find_classes(classes_root_dir)
+
+        if not words_list_file:
+
+            classes, class_to_idx = find_classes(classes_root_dir)
+
+        else:
+
+
+            index2word = {}
+            classes = np.loadtxt(words_list_file, dtype=str)
+            if classes.size ==1:
+                classes = np.array([words_list])
+            classes.sort()
+            class_to_idx = {classes[i]: i for i in range(len(classes))}
+
+
         self.class_to_idx = class_to_idx
         self.classes = classes
         spects = []
