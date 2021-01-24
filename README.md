@@ -118,7 +118,7 @@ If you find our work useful, please cite:
 
 	`--trained_yolo_model [path_to_file]`.
 
-	Our trained model could be found here: [vgg11](https://drive.google.com/file/d/1HbWmcZqPQSrjKbffw5clzi6g4lr2O86O/view), [vgg19](https://drive.google.com/file/d/1sMLbAQT_iaF96YR4xWbjxvA-UwuaSdEF/view).
+	Our trained model could be found here: [vgg11](https://drive.google.com/file/d/1XTBqeo-wf814UtCsF-OxmNJQiEfRznJ9/view), [vgg19](https://drive.google.com/file/d/1mkOn61zMzHi9S4XNhfDxnNSuV57OnoyN/view).
 
 - To test, run:
 	```
