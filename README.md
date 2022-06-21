@@ -1,8 +1,8 @@
 # SpeechYOLO: Detection and Localization of Speech Objects
 
-Yael Segal (segalya@cs.biu.ac.il)\
+Yael Segal (segal.yael@campus.technion.ac.il)\
 Tzeviya Sylvia Fuchs (fuchstz@cs.biu.ac.il) \
-Joseph Keshet (joseph.keshet@cs.biu.ac.il)             
+Joseph Keshet (jkeshet@technion.ac.il)             
 
 
 SpeechYOLO, inspired by the [YOLO](https://arxiv.org/pdf/1506.02640.pdf) algorithm , uses object detection methods from the vision domain for speech recognition. The goal of SpeechYOLO is to localize boundaries of utterances within the input signal, and to correctly classify them. Our system is composed of a convolutional neural network, with a simple least-meansquares loss function.
